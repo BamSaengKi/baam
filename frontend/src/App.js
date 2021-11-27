@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 import './App.css';
 import { useState } from 'react';
+import UserHandler from './handler/user';
 
 function App() {
   const [userName, setUserName] = useState('');
@@ -12,22 +13,10 @@ function App() {
 
   const onClickUserRegist = async () => {
     console.log(userName, userDesc, userId, userPw);
-    try {
-      const apiResult = await fetch('http://localhost:4000/users', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_nm: userName,
-          user_desc: userDesc,
-          user_login_id: userId,
-          user_login_pw: userPw,
-        }),
-      });
-      console.log(apiResult);
-    } catch (error) {
-      console.log('오류발생:, { e }');
+    if (await UserHandler.create({ userName, userDesc, userId, userPw })) {
+      alert('회원가입 성공');
+    } else {
+      alert('회원가입 실패');
     }
   };
 
@@ -44,7 +33,7 @@ function App() {
       </div>
       <div>
         <TextField
-          label="유저 설명"
+          label="유저 소개"
           variant="standard"
           fullWidth
           value={userDesc}
@@ -72,7 +61,9 @@ function App() {
       <div>
         <Button
           fullWidth
-          onClick={() => onClickUserRegist()}
+          onClick={() => {
+            onClickUserRegist();
+          }}
           variant="standard"
         >
           회원가입
