@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     const result = await UserService.getUserlist();
     return res
       .status(200)
-      .json({ status: 200, data: result, message: 'Success' });
+      .json({ status: 200, data: result, message: 'Succex' });
   } catch (error) {
     return res.status(500).json({ status: 500, message: error });
   }
