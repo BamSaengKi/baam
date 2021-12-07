@@ -1,76 +1,55 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
-import './App.css';
 import { useState } from 'react';
 import UserHandler from './handler/user';
 
-function App() {
-  const [userName, setUserName] = useState('');
-  const [userDesc, setUserDesc] = useState('');
-  const [userId, setUserId] = useState('');
-  const [userPw, setUserPw] = useState('');
+import { Main, Signin, Signup, NoticeBoard } from './pages'
 
-  const onClickUserRegist = async () => {
-    console.log(userName, userDesc, userId, userPw);
-    if (await UserHandler.create({ userName, userDesc, userId, userPw })) {
-      alert('회원가입 성공');
-    } else {
-      alert('회원가입 실패');
+
+function App() {
+
+  const [page, setPage] = useState('/Main');
+
+  const getPage = () => {
+    switch (page) {
+      case '/Signup':
+        return <Signup></Signup>
+      case '/Signin':
+        return <Signin></Signin>
+        case '/NoticeBoard':
+          return <NoticeBoard></NoticeBoard>
+      case '/Main':
+      default:
+        return <Main></Main>
     }
-  };
+  }
+
 
   return (
-    <div className="app-container">
-      <div>
-        <TextField
-          label="유저이름"
-          variant="standard"
-          fullWidth
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyItems: 'flex-start',
+      alignItems: 'center',
+      flexDirection: 'column'
+    }}>
+      <div style={{width: '100%', height: '10%',display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', borderBottom: '1px solid lightgray'}}>
+        
+          <Button varint="standards" onClick={() => { setPage('/Main') }}>메인</Button>
+       
+        <Button varint="standards" onClick={() => { setPage('/NoticeBoard') }}>게시판</Button>
+        <Button varint="standards" onClick={() => { setPage('/Signup') }}>회원가입</Button>
+        <Button varint="standards" onClick={() => { setPage('/Signin') }}>로그인</Button>
       </div>
-      <div>
-        <TextField
-          label="유저 소개"
-          variant="standard"
-          fullWidth
-          value={userDesc}
-          onChange={(e) => setUserDesc(e.target.value)}
-        />
-      </div>
-      <div>
-        <TextField
-          label="유저 아이디"
-          variant="standard"
-          fullWidth
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
-      </div>
-      <div>
-        <TextField
-          label="유저 비밀번호"
-          variant="standard"
-          fullWidth
-          value={userPw}
-          onChange={(e) => setUserPw(e.target.value)}
-        />
-      </div>
-      <div>
-        <Button
-          fullWidth
-          onClick={() => {
-            onClickUserRegist();
-          }}
-          variant="standard"
-        >
-          회원가입
-        </Button>
+      <div style={{width: '100%', height: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        {getPage()}
       </div>
     </div>
-  );
+  )
+
+
 }
 
 export default App;
